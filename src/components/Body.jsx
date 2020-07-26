@@ -12,8 +12,7 @@ class Body extends React.Component {
   }
   render() { 
     return ( 
-      <div className="main-wrapper">
-        <InputForm></InputForm>
+      <div className="">
         <PostsList></PostsList>
       </div>
     );

@@ -5,8 +5,8 @@ import Body from './components/Body'
 
 function App() {
   return (
-    <Container className="main-wrapper" maxWidth="sm">
-      <Body></Body>
+    <Container className="container" maxWidth="sm">
+      <Body className="main-wrapper"></Body>
     </Container>
   );
 }

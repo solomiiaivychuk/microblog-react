@@ -5,25 +5,49 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(27, 26, 26);
+  background-color: rgb(170, 165, 165);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-#root {
-  display: flex;
-  justify-content: center;
-  width: 70%;
-}
 body {
   display: flex;
   justify-content: center;
 }
-
-.form {
-  width: 200px;
-  outline: 2px solid rgb(80, 145, 219);
+#root {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin: 3rem;
 }
+/*the textarea wrapper*/
+#root>* {
+  width: 100%;
+  animation: none 0s !important;
+}
+/*the textarea itself*/
+.MuiButton-label>* {
+  width: 100%;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.post-button {
+  align-self: flex-end;
+  justify-self: flex-end;
+  width: 10%;
+}
+
+.post-item {
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
