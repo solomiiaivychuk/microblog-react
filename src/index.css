@@ -54,10 +54,18 @@ body {
   align-self: flex-start;
 }
 .post-date {
+  font-size: 0.8rem;
   align-self: flex-end;
 }
 .post-text {
   font-size: 1.2rem;
   margin-left: 1rem;
   display: inline;
+}
+.spinner-border {
+  display: block;
+  position: absolute;
+  z-index: 100;
+  top: 50%;
+  left: 50%;
 }
