@@ -1,46 +1,60 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import React from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from '@material-ui/core/Button';
 class InputForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      name: "",
-     }
+    this.state = {
+      text: "",
+    };
   }
 
-  // useStyles = makeStyles((theme) => ({
-  //   root: {
-  //     '& .MuiTextField-root': {
-  //       margin: theme.spacing(1),
-  //       width: '25ch',
-  //     },
-  //   },
-  // }));
-  
-  // MultilineTextFields() {
-  //   const classes = useStyles();
-  //   const [value, setValue] = React.useState('Controlled');
-  
-  //   handleChange = (event) => {
-  //     setValue(event.target.value);
-  //   };
-  // }
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.onSubmit({
+      id: Date.now(),
+      text: this.state.text,
+      author : 'John Doe',
+      date : new Date(Date.now()).toLocaleString(),
+    })
+    event.target.reset();
+  }
 
-  render() { 
-    return ( 
-      <form className="form" noValidate autoComplete="off">
+  handleChange(event) {
+    this.setState({
+      text: event.target.value,
+    })
+  }
+
+  render() {
+    return (
+      <form 
+        className="form-wrapper"
+        onSubmit={(event) => this.handleSubmit(event)}>
         <TextField
           id="outlined-multiline-static"
-          label="Type something..."
+          label="what's on your mind?"
           multiline
           rows={4}
-          placeholder="Type something..."
+          placeholder="type something..."
           variant="outlined"
+          required={true}
+          fullWidth={true}
+          helperText="140 symbols maximum"
+          onChange={(event) => this.handleChange(event)}
+          inputProps= {{maxLength: 140}}
         />
+        <Button 
+          variant="contained" 
+          color="primary" 
+          type="submit" 
+          className="post-button"
+          >
+          Post
+        </Button>
       </form>
     );
   }
 }
- 
+
 export default InputForm;

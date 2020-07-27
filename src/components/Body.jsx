@@ -1,23 +1,13 @@
 import React from 'react'
-import InputForm from './InputForm';
 import PostsList from './PostsList';
 
 
-class Body extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { 
-      name: "",
-     }
-  }
-  render() { 
+function Body (props) {
     return ( 
-      <div className="main-wrapper">
-        <InputForm></InputForm>
+      <div className="">
         <PostsList></PostsList>
       </div>
     );
-  }
 }
  
 export default Body;
