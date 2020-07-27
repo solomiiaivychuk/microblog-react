@@ -13,23 +13,16 @@ class PostItem extends React.Component {
   }
   render() { 
     return ( 
-      
-      <div className="post-item">
-        <Card className="{classes.root}">
-      <CardContent>
-        <Typography className="" color="textSecondary" gutterBottom>
+    <div className="card shadow rounded post-item">
+      <div className="post-author">
         {this.props.post.author}
-        </Typography>
-        <Typography variant="h5" component="h2" nowrap="false">
+      </div>
+      <div className="post-text">
         {this.props.post.text}
-        </Typography>
-        <Typography className="{classes.pos}" color="textSecondary">
+      </div>
+      <div className="post-date">
         {this.props.post.date}
-        </Typography>
-        <Typography variant="body2" component="p">
-        </Typography>
-      </CardContent>
-    </Card>
+      </div>
     </div>
      );
   }

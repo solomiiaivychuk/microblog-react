@@ -18,6 +18,7 @@ class InputForm extends React.Component {
       author : 'John Doe',
       date : new Date(Date.now()).toLocaleString(),
     })
+    event.target.reset();
   }
 
   handleChange(event) {

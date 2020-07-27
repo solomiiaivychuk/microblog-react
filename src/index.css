@@ -31,7 +31,9 @@ body {
 .MuiButton-label>* {
   width: 100%;
 }
-
+.MuiFormHelperText-root {
+  text-transform: lowercase;
+}
 .form-wrapper {
   display: flex;
   flex-direction: column;
@@ -43,11 +45,22 @@ body {
 }
 
 .post-item {
-  width: 100%;
   margin-top: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
+  padding: 1rem;
+  text-transform: none;
+  background-color: rgb(107, 107, 141);
+  color: rgb(31, 29, 29);
 }
+.post-author {
+  align-self: flex-start;
+}
+.post-date {
+  align-self: flex-end;
+}
+.post-text {
+  align-self: flex-start;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  display: inline;
 
+}
