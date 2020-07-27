@@ -25,7 +25,6 @@ body {
 /*the textarea wrapper*/
 #root>* {
   width: 100%;
-  animation: none 0s !important;
 }
 /*the textarea itself*/
 .MuiButton-label>* {
@@ -58,9 +57,7 @@ body {
   align-self: flex-end;
 }
 .post-text {
-  align-self: flex-start;
   font-size: 1.2rem;
   margin-left: 1rem;
   display: inline;
-
 }

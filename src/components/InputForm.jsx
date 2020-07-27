@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
 class InputForm extends React.Component {
@@ -33,7 +32,6 @@ class InputForm extends React.Component {
         className="form-wrapper"
         onSubmit={(event) => this.handleSubmit(event)}>
         <TextField
-        
           id="outlined-multiline-static"
           label="what's on your mind?"
           multiline
