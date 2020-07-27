@@ -13,9 +13,9 @@ class InputForm extends React.Component {
     event.preventDefault();
     this.props.onSubmit({
       id: Date.now(),
-      text: this.state.text,
-      author : 'John Doe',
-      date : new Date(Date.now()).toLocaleString(),
+      content: this.state.text,
+      userName : 'solomiia',
+      date : (new Date(Date.now())).toISOString(),
     })
     event.target.reset();
   }
