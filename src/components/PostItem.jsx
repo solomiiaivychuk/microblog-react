@@ -1,6 +1,6 @@
 import React from "react";
 
-function PostItem (props) {
+const PostItem = (props) => {
   return (
     <div className="card shadow rounded post-item">
       <div className="post-author">{props.post.userName}</div>

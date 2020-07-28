@@ -16,7 +16,6 @@ class PostsList extends React.Component {
      }
   }
 
-
   async addPost(post) {
     this.setState((state) => {return {loaded : false}})
     this.setState((state) => state.posts = [])
