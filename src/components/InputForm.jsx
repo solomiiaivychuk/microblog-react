@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
+
 class InputForm extends React.Component {
   constructor(props) {
     super(props);
@@ -9,12 +10,13 @@ class InputForm extends React.Component {
     };
   }
 
+
   handleSubmit(event) {
     event.preventDefault();
     this.props.onSubmit({
       id: Date.now(),
       content: this.state.text,
-      userName : 'solomiia',
+      userName : JSON.parse(localStorage.getItem('001')),
       date : (new Date(Date.now())).toISOString(),
     })
     event.target.reset();

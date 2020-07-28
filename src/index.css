@@ -20,7 +20,7 @@ body {
   display: flex;
   justify-content: center;
   width: 70%;
-  margin: 3rem;
+  margin: 0 3rem 3rem 3rem;
 }
 /*the textarea wrapper*/
 #root>* {
@@ -68,4 +68,34 @@ body {
   z-index: 100;
   top: 50%;
   left: 50%;
+}
+
+.header {
+  height: 3rem;
+  border-bottom: 1px solid rgb(110, 107, 107);
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+
+
+}
+.link {
+  color: rgb(53, 46, 46);
+}
+.link:hover {
+  color: rgb(53, 46, 46);
+}
+.user-form {
+  margin: 3rem;
+  padding: 5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: rgb(122, 122, 134);
+}
+.user-button {
+  height: 2rem;
+  align-self: flex-end;
 }
