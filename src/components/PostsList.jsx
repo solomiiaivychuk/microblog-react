@@ -4,76 +4,64 @@ import PostItem from './PostItem'
 import { getTweets, postTweet } from '../lib/api'
 import Loader from './Loader'
 import ErrorMessage from './ErrorMessage'
+import { savePosts } from '../lib/hooks';
 
-class PostsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      posts : [],
-      loaded : false,
-      errorMessage : '',
-      error: false,
-     }
-  }
+const PostsList = (props) => {
+  const [load, setLoad] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [posts, setPosts] = useState([]);
 
-  async addPost(post) {
-    this.setState((state) => {return {loaded : false}})
-    this.setState((state) => state.posts = [])
+const addPost = async (post) => {
+    setLoad(false);
     if (post.text != "") {
       try {
         await postTweet(post);
+        setPosts([post, ...posts]);
       }
       catch(error) {
-        this.setState(() => {return {
-          error : true, 
-          errorMessage : "Something went wrong. Unable to post tweet."}})
+        setError(true);
+        setErrorMessage("Something went wrong. Unable to post tweet.");
       }
      }
-    await this.getPosts();
+    getPosts();
   }
 
-  async getPosts() {
+  const getPosts = async () => {
     try {
       const response = await getTweets();
       const serverTweets = response.data.tweets;
-      for (let post of serverTweets) {
-        this.setState((state) => {
-          return { 
-          posts : [...state.posts, post]
-        }
-        })
-      }
+      setPosts(serverTweets)
     }
-    catch(error) {
-      this.setState(() => {return {
-        error: true, 
-        errorMessage : "No tweets to present. Check the address."}})
-      }
-    this.setState(() => {return {loaded : true}})
+      catch(error) {
+      setError(true); 
+      setErrorMessage("No tweets to present.")
+    }
+    setLoad(true);
   }
 
-  async componentDidMount() {
-    window.addEventListener('load', this.getPosts());
-  }
+  useEffect(() => {
+    setInterval(() => {
+      getPosts();
+    }, 10000);
+  }, [])
   
-  render() { 
-    return ( 
-      <div>
-        <InputForm onSubmit={(post) => this.addPost(post)}></InputForm>
-        {!this.state.loaded && <Loader></Loader>}
-        {this.state.error && <ErrorMessage errorMessage={this.state.errorMessage}></ErrorMessage>}
-        {this.state.posts.map((post) => (
-          <PostItem
-            key={post.id}
-            id={post.id}
-            post={post}
-            >
-            </PostItem>
-        ))
-        }
-      </div>
-     );
-  }
+  return ( 
+    <div>
+      <InputForm onSubmit={(post) => addPost(post)}></InputForm>
+      {!load && <Loader></Loader>}
+      {error && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
+      {posts.map((post) => (
+        <PostItem
+          key={post.id}
+          id={post.id}
+          post={post}
+        >
+        </PostItem>
+      ))
+      }
+    </div>
+  );
 }
  
 export default PostsList;
