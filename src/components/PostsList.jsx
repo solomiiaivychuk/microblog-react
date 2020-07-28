@@ -16,11 +16,6 @@ class PostsList extends React.Component {
      }
   }
 
-  saveState(key, defValue) {
-    const [state, setState] = React.useState(localStorage.getItem(key) || defValue);
-    useEffect(() => {localStorage(key, state)}, [key,state]);
-    return [state, setState]
-  }
 
   async addPost(post) {
     this.setState((state) => {return {loaded : false}})
