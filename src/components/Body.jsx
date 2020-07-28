@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PostsList from './PostsList';
 import UserProfile from './UserProfile';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import UserName from '../UserNameContext'
 
-function Body (props) {
+function Body () {
     return ( 
         <Router>
           <div className="">
