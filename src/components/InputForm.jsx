@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import TweetsContext from "../TweetsContext";
+import UserNameContext from "../UserNameContext";
 
-const InputForm = (props) => {
+const InputForm = () => {
   const [text, setText] = useState("");
+  const tweetsContext = useContext(TweetsContext);
+  const userNameContext = useContext(UserNameContext);
 
   const handleSubmit = (event) => {
+    const date = new Date();
     event.preventDefault();
-    props.onSubmit({
+    console.log(userNameContext.contextName);
+    tweetsContext.addPost({
       id: Date.now(),
       content: text,
       userName: JSON.parse(localStorage.getItem("001")),
-      date: new Date(Date.now()).toISOString(),
+      date: date.toISOString(),
     });
     event.target.reset();
   };
