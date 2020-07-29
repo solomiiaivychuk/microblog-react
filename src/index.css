@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(170, 165, 165);
+  background-color: rgb(119, 101, 101);
 }
 
 code {
@@ -47,8 +47,8 @@ body {
   margin-top: 1rem;
   padding: 1rem;
   text-transform: none;
-  background-color: rgb(107, 107, 141);
-  color: rgb(31, 29, 29);
+  background-color: rgb(55, 55, 59);
+  color: rgb(202, 186, 186);
 }
 .post-author {
   align-self: flex-start;
@@ -72,7 +72,7 @@ body {
 
 .header {
   height: 3rem;
-  border-bottom: 1px solid rgb(110, 107, 107);
+  border-bottom: 1px solid rgb(182, 168, 168);
   margin-bottom: 1rem;
   display: flex;
   flex-wrap: nowrap;
@@ -98,4 +98,8 @@ body {
 .user-button {
   height: 2rem;
   align-self: flex-end;
+}
+.name-change-confirmation {
+  margin: 3rem 3rem 0 3rem;
+  background-color: rgb(107, 107, 141);
 }

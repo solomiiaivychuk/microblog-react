@@ -1,21 +1,16 @@
 import React, { useContext } from "react";
-import AddTweet from '../AddTweet'
-import TweetsList from '../TweetsList'
+import TweetsContext from "../TweetsContext";
 
-
-const context = TweetsList;
-
-const PostItem = (props) => {
-const context = useContext(AddTweet);
-console.log(context.post);
-
-  return (
-        <div className="card shadow rounded post-item">
-          <div className="post-author">{props.post.userName}</div>
-          <div className="post-text">{props.post.content}</div>
-          <div className="post-date">{props.post.date}</div>
-        </div>
-   );
-}
+const PostItem = () => {
+  const context = useContext(TweetsContext);
+  const { posts } = context;
+  return posts.map((post) => (
+    <div key={post.id} className="card shadow rounded post-item">
+      <div className="post-author">{post.userName}</div>
+      <div className="post-text">{post.content}</div>
+      <div className="post-date">{post.date}</div>
+    </div>
+  ));
+};
 
 export default PostItem;
