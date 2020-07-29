@@ -6,12 +6,13 @@ const InputForm = (props) => {
   const [text, setText] = useState("");
 
   const handleSubmit = (event) => {
+    const date = new Date();
     event.preventDefault();
     props.onSubmit({
       id: Date.now(),
       content: text,
       userName: JSON.parse(localStorage.getItem("001")),
-      date: new Date(Date.now()).toISOString(),
+      date: date.toISOString(),
     });
     event.target.reset();
   };

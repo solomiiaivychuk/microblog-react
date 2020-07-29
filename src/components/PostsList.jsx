@@ -21,7 +21,7 @@ const addPost = async (post) => {
       }
       catch(error) {
         setError(true);
-        setErrorMessage("Something went wrong. Unable to post tweet.");
+        setErrorMessage("Error :" + error.message);
       }
      }
     getPosts();
@@ -35,7 +35,8 @@ const addPost = async (post) => {
     }
       catch(error) {
       setError(true); 
-      setErrorMessage("No tweets to present.")
+      setErrorMessage("Error : " + error.message);
+      console.log(error.message);
     }
     setLoad(true);
   }

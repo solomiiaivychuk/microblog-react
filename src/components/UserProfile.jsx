@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRoute, Switch, Route, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -35,6 +30,7 @@ const UserProfile = (props) => {
   };
 
   return (
+    <div>
     <form
       onSubmit={(event) => handleSubmit(event)}
       className="user-form card rounded shadow"
@@ -62,6 +58,8 @@ const UserProfile = (props) => {
         Register
       </Button>
     </form>
+    <div className='d-none'>Changed user name successfully!</div>
+    </div>
   );
 };
 
