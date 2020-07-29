@@ -4,19 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Button from "@material-ui/core/Button";
+import UserName from '../UserName'
 
-const UserProfile = (props) => {
+const UserProfile = () => {
   const [name, setName] = useState("");
-
-  const useStyles = makeStyles((theme) => ({
-    margin: {
-      margin: theme.spacing(1),
-    },
-  }));
-
-  const InputWithIcon = () => {
-    const classes = useStyles();
-  };
 
   const handleChange = (event) => {
     setName(event.target.value);
@@ -30,7 +21,7 @@ const UserProfile = (props) => {
   };
 
   return (
-    <div>
+    <UserName.Provider value={name}>
     <form
       onSubmit={(event) => handleSubmit(event)}
       className="user-form card rounded shadow"
@@ -59,7 +50,7 @@ const UserProfile = (props) => {
       </Button>
     </form>
     <div className='d-none'>Changed user name successfully!</div>
-    </div>
+    </UserName.Provider>
   );
 };
 

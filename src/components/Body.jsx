@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import PostsList from "./PostsList";
 import UserProfile from "./UserProfile";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import UserName from "../UserNameContext";
 
 const Body = () => {
   return (

@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import UserName from '../UserName'
+
+//const context = UserName;
 
 const InputForm = (props) => {
   const [text, setText] = useState("");
+  const contextName = useContext(UserName);
 
   const handleSubmit = (event) => {
     const date = new Date();
     event.preventDefault();
+    console.log(contextName);
     props.onSubmit({
       id: Date.now(),
       content: text,

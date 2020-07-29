@@ -5,17 +5,21 @@ import { getTweets, postTweet } from '../lib/api'
 import Loader from './Loader'
 import ErrorMessage from './ErrorMessage'
 import { savePosts } from '../lib/hooks';
+import AddTweet from '../AddTweet';
+import TweetsList from '../TweetsList'
 
-const PostsList = (props) => {
+const PostsList = () => {
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [posts, setPosts] = useState([]);
+  const tweet = []
 
 const addPost = async (post) => {
     setLoad(false);
     if (post.text != "") {
       try {
+        tweet = post;
         await postTweet(post);
         setPosts([post, ...posts]);
       }
@@ -24,7 +28,7 @@ const addPost = async (post) => {
         setErrorMessage("Error :" + error.message);
       }
      }
-    getPosts();
+     setLoad(true);
   }
 
   const getPosts = async () => {
@@ -48,7 +52,7 @@ const addPost = async (post) => {
   }, [])
   
   return ( 
-    <div>
+    <AddTweet.Provider value={tweet, addPost}>
       <InputForm onSubmit={(post) => addPost(post)}></InputForm>
       {!load && <Loader></Loader>}
       {error && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
@@ -61,7 +65,7 @@ const addPost = async (post) => {
         </PostItem>
       ))
       }
-    </div>
+    </AddTweet.Provider>
   );
 }
  
