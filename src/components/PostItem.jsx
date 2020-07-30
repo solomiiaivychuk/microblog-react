@@ -5,7 +5,7 @@ const PostItem = () => {
   const context = useContext(TweetsContext);
   const { posts } = context;
   return posts.map((post) => (
-    <div key={post.id} className="card shadow rounded post-item">
+    <div key={post.id} className="card rounded post-item">
       <div className="post-author">{post.userName}</div>
       <div className="post-text">{post.content}</div>
       <div className="post-date">{post.date}</div>
