@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import TweetsContext from "../TweetsContext";
 import UserNameContext from "../UserNameContext";
 
@@ -28,27 +26,23 @@ const InputForm = () => {
 
   return (
     <form className="form-wrapper" onSubmit={(event) => handleSubmit(event)}>
-      <TextField
-        id="outlined-multiline-static"
-        label="what's on your mind?"
-        multiline
-        rows={4}
-        placeholder="type something..."
-        variant="outlined"
-        required={true}
-        fullWidth={true}
-        helperText="140 symbols maximum"
-        onChange={(event) => handleChange(event)}
-        inputProps={{ maxLength: 140 }}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        className="post-button"
-      >
+      <div name="form-group">
+        <label htmlFor="exampleFormControlTextarea1"></label>
+        <textarea
+          className="form-control post-input"
+          id="exampleFormControlTextarea1"
+          rows="4"
+          placeholder="What's on your mind?"
+          maxLength="140"
+          onChange={(event) => handleChange(event)}
+        ></textarea>
+        <small id="passwordHelpBlock" className="form-text text-muted">
+          140 characters maximum
+        </small>
+      </div>
+      <button type="submit" className="btn btn-primary post-button">
         Post
-      </Button>
+      </button>
     </form>
   );
 };

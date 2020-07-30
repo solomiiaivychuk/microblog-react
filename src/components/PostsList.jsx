@@ -5,6 +5,7 @@ import { getTweets, postTweet } from "../lib/api";
 import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import TweetsContext from "../TweetsContext";
+import WindowDisabled from "./WindowDisabled"
 
 const PostsList = () => {
   const [load, setLoad] = useState(false);
@@ -48,7 +49,7 @@ const PostsList = () => {
   return (
     <TweetsContext.Provider value={{ posts, addPost }}>
       <InputForm onSubmit={(post) => addPost(post)}></InputForm>
-      {!load && <Loader />}
+      {!load && <div> <WindowDisabled /> <Loader /> </div>}
       {error && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
       <PostItem />
     </TweetsContext.Provider>
