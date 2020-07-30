@@ -13,7 +13,9 @@ const UserProfile = () => {
     localStorage.clear();
     localStorage.setItem("001", JSON.stringify(name));
     event.target.reset();
-    setSigned(true);
+    if (name != "") {
+      setSigned(true);
+    }
   };
 
   return (

@@ -31,6 +31,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 5rem auto;
+  background-color: ;
 }
 .post-button {
   align-self: flex-end;
@@ -68,7 +69,7 @@ body {
   left: 50%;
 }
 .post-input {
-  background-color: rgb(53, 46, 46);
+  background-color: rgb(53, 56, 59);
 }
 .header {
   position: fixed;
@@ -97,17 +98,33 @@ body {
   padding: 5rem;
   display: flex;
   flex-direction: row;
+  flex-shrink: 7;
   justify-content: space-around;
   background-color: rgb(53, 56, 59);
 }
 .username-input {
   background-color: rgb(53, 56, 59);
 }
-.user-button {
-  align-self: flex-end;
-}
 .name-change-confirmation {
   margin: 3rem 3rem 0 3rem;
   color: whitesmoke;
   background-color: rgb(53, 56, 59);
+}
+.disabled-window {
+  background-color:rgba(239, 239, 239, 0.2);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  top: 0px;
+  left: 0px;
+}
+.loader-message {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  z-index: 100;
+  top: 42%;
+  left: 40%;
+  color: rgb(0, 132, 255);
 }
