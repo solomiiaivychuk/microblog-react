@@ -1,15 +1,15 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(67, 139, 235);
+  background-color: rgb(32, 34, 37);
+  color: whitesmoke;
 }
-
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 body {
@@ -23,34 +23,30 @@ body {
   margin: 0 3rem 3rem 3rem;
 }
 /*the textarea wrapper*/
-#root>* {
+#root > * {
   width: 100%;
 }
-/*the textarea itself*/
-.MuiButton-label>* {
-  width: 100%;
-}
-.MuiFormHelperText-root {
-  text-transform: lowercase;
-}
+
 .form-wrapper {
   display: flex;
   flex-direction: column;
-  margin-top: 5rem;
-  
+  margin: 5rem auto;
 }
 .post-button {
   align-self: flex-end;
   justify-self: flex-end;
   width: 10%;
+  z-index: 100;
+  margin-top: -4.3rem;
+  margin-right: 0.8rem;
 }
 
 .post-item {
   margin-top: 1rem;
   padding: 1rem;
   text-transform: none;
-  background-color: rgb(203, 203, 230);
-  color: rgb(44, 38, 38);
+  background-color: rgb(53, 56, 59);
+  color: whitesmoke;
 }
 .post-author {
   align-self: flex-start;
@@ -71,11 +67,13 @@ body {
   top: 50%;
   left: 50%;
 }
-
+.post-input {
+  background-color: rgb(53, 46, 46);
+}
 .header {
   position: fixed;
   width: 70%;
-  background-color: rgb(67, 139, 235);
+  background-color: rgb(32, 34, 37);
   z-index: 100;
   height: 3rem;
   margin-bottom: 1rem;
@@ -89,10 +87,10 @@ body {
 .link {
   text-transform: uppercase;
   font-weight: 500;
-  color: rgb(53, 46, 46);
+  color: whitesmoke;
 }
 .link:hover {
-  color: rgb(53, 46, 46);
+  color: whitesmoke;
 }
 .user-form {
   margin: 3rem;
@@ -100,13 +98,16 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  background-color: rgb(203, 203, 230);
+  background-color: rgb(53, 56, 59);
+}
+.username-input {
+  background-color: rgb(53, 56, 59);
 }
 .user-button {
-  height: 2rem;
   align-self: flex-end;
 }
 .name-change-confirmation {
   margin: 3rem 3rem 0 3rem;
-  background-color: rgb(107, 107, 141);
+  color: whitesmoke;
+  background-color: rgb(53, 56, 59);
 }
