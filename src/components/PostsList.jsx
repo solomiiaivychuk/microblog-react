@@ -40,6 +40,7 @@ const PostsList = () => {
     setLoad(true);
   };
 
+
   useEffect(() => {
     setInterval(() => {
       getPosts();

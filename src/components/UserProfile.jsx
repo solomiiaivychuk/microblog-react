@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+
 const UserProfile = () => {
   const [name, setName] = useState("");
   const [signed, setSigned] = useState(false);
@@ -35,9 +36,12 @@ const UserProfile = () => {
               <input
                 type="text"
                 className="form-control username-input"
-                placeholder="Enter name"
+                placeholder="Enter email"
                 onChange={(event) => handleChange(event)}
               />
+            </div>
+            <div className="col">
+              <input type="text" className="form-control username-input" placeholder="Password" />
             </div>
           </div>
         </div>
