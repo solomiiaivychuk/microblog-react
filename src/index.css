@@ -98,12 +98,33 @@ body {
   padding: 5rem;
   display: flex;
   flex-direction: row;
-  flex-shrink: 7;
   justify-content: space-around;
   background-color: rgb(53, 56, 59);
 }
+.user-profile {
+  margin: 3rem;
+  padding: 5rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(53, 56, 59);
+}
+.user-name {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.user-avatar {
+  justify-self: center;
+  width: 100px;
+  border-radius: 50%;
+}
+.user-button {
+  font-size: 0.8rem;
+}
 .username-input {
   background-color: rgb(53, 56, 59);
+
 }
 .name-change-confirmation {
   margin: 3rem 3rem 0 3rem;
