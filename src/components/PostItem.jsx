@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import TweetsContext from "../TweetsContext";
 import * as firebase from 'firebase';
+
 const PostItem = () => {
-  // const context = useContext(TweetsContext);
-  // const { posts } = context;
-  // console.log(posts);
   
   const tweetsRef = firebase.database().ref('tweets');
 

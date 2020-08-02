@@ -32,18 +32,12 @@ const PostsList = () => {
   };
 
   const getPosts = async () => {
-    tweetsRef.on('value', (snapshot) => {
-      return snapshot.val();
-    })
+      tweetsRef.on('value', (snapshot) => {
+        return snapshot.val();
+      })
     setLoad(true);
   };
 
-
-  useEffect(() => {
-    setInterval(() => {
-      getPosts();
-    }, 5000);
-  }, []);
 
   return (
     <TweetsContext.Provider value={{ posts, addPost }}>

@@ -122,6 +122,11 @@ body {
 .user-button {
   font-size: 0.8rem;
 }
+.buttons-row {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
 .username-input {
   background-color: rgb(53, 56, 59);
 
