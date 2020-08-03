@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import firebase, { auth, provider } from "../firebase";
-import UserNameContext from "../UserNameContext";
+import UserContext from "../UserContext";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -8,8 +8,9 @@ const UserProfile = () => {
   const [password, setPassword] = useState("");
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
-  const userNameContx = useContext(UserNameContext);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const usersRef = firebase.database().ref('users');
 
   const logout = () => {
     auth.signOut().then(() => {
@@ -20,16 +21,14 @@ const UserProfile = () => {
 
   const loginWithGoogle = () => {
     try {
-
-    
-    auth.signInWithPopup(provider).then((result) => {
-      const loggedUser = result.user;
-      setUser(loggedUser);
-      setName(loggedUser.displayName);
-      setImage(loggedUser.photoURL);
-    });
-    localStorage.clear();
-    localStorage.setItem("name", JSON.stringify(name));
+      auth.signInWithPopup(provider).then((result) => {
+        const loggedUser = result.user;
+        setUser(loggedUser);
+        setName(loggedUser.displayName);
+        setImage(loggedUser.photoURL);
+      });
+      localStorage.clear();
+      localStorage.setItem("name", JSON.stringify(name));
     }
     catch(error) {
       setErrorMessage(` ${error.message}`);
@@ -37,22 +36,15 @@ const UserProfile = () => {
     
   };
 
-  const loginWithPassword = (email, password) => {
+  const loginWithPassword = () => {
     try {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch(function (error) {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode + " " + errorMessage);
-        });
-      localStorage.clear();
-      localStorage.setItem("name", JSON.stringify(name));
+      firebase.auth().signInWithEmailAndPassword(email, password);
     }
     catch(error) {
       setErrorMessage(` ${error.message}`);
     }
+    localStorage.clear();
+    localStorage.setItem("name", JSON.stringify(email));
   };
 
   const handleEmailChange = (event) => {
@@ -66,12 +58,25 @@ const UserProfile = () => {
   const signUp = () => {
     try {
       firebase.auth().createUserWithEmailAndPassword(email, password);
+      const newUser = {
+        userEmail: email,
+        userName: '',
+        userImage: '',
+      }
+      usersRef.push(newUser);
     }
     catch(error) {
       setErrorMessage(` ${error.message}`);
     }
   }
 
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  }
+
+  const changeUserName = (newName) => {
+    setName(newName);
+  }
   useEffect(() => {
     auth.onAuthStateChanged((loggedUser) => {
       if (loggedUser) {
@@ -83,7 +88,7 @@ const UserProfile = () => {
   });
 
   return (
-    <div>
+    <UserContext.Provider value={{ user: user, name: name, email: email, image: image, setUser }}>
       {user && (
         <div className="card rounded shadow user-profile">
           <div className="user-name">{name}</div>
@@ -91,6 +96,38 @@ const UserProfile = () => {
           <button className="btn btn-primary d-flex logout-button p-2" onClick={logout}>
             Log out
           </button>
+
+          <div className="input-group mb-3">
+            <input 
+              type="text" 
+              className="form-control" 
+              placeholder="Change username" 
+              aria-label="Recipient's username" 
+              aria-describedby="button-addon2"
+              onChange={(event) => handleNameChange(event)} />
+            <div className="input-group-append">
+              <button 
+                className="btn btn-outline-secondary" 
+                type="button" 
+                id="button-addon2"
+                onClick={(newName) => changeUserName(newName)}
+              >
+                Change
+              </button>
+            </div>
+          </div>
+          
+          <div className="input-group mb-3 mt-3">
+            <div className="custom-file">
+              <input 
+                type="file" 
+                className="custom-file-input" 
+                id="inputGroupFile03" 
+                aria-describedby="inputGroupFileAddon03" />
+              <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
+            </div>
+          </div>
+
         </div>
       )}
       {!user && (
@@ -119,9 +156,7 @@ const UserProfile = () => {
               <div className="buttons-row">
                 <button
                   className="btn btn-primary user-button"
-                  onClick={(email, password) =>
-                    loginWithPassword(email, password)
-                  }
+                  onClick={loginWithPassword}
                 >
                   Log in
                 </button>
@@ -134,12 +169,12 @@ const UserProfile = () => {
                 <button className="btn btn-primary user-button" onClick={signUp}>Sign up</button>
               </div>
             </div>
-            <div className="row di-inline error-info">{errorMessage}</div>
+            <div className="row d-inline error-info">{errorMessage}</div>
           </div>
         </div>
       </div>
       )}
-    </div>
+    </UserContext.Provider>
   );
 };
 

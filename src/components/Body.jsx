@@ -1,27 +1,39 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import PostsList from "./PostsList";
 import UserProfile from "./UserProfile";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import UserNameContext from '../UserNameContext'
+import UserContext from '../UserContext'
+import firebase, { auth, provider } from "../firebase";
 
 const Body = () => {
+  /*
+  useEffect(() => {
+    auth.onAuthStateChanged((loggedUser) => {
+      if (loggedUser) {
+        setUser(loggedUser);
+        setName(loggedUser.displayName);
+        setImage(loggedUser.photoURL);
+      }
+    });
+  });
+*/
   return (
     <Router>
       <div className="">
         <div className="header">
-          <Link to="/Tweets" className="link">
+          <Link to="/" className="link">
             Home
           </Link>
-          <Link to="/" className="link">
+          <Link to="/Profile" className="link">
             Profile
           </Link>
         </div>
         <Switch>
-          <Route exact path="/Tweets">
+          <Route exact path="/">
             <PostsList></PostsList>
           </Route>
-          <Route path="/">
-              <UserProfile></UserProfile>
+          <Route path="/Profile">
+            <UserProfile></UserProfile>
           </Route>
         </Switch>
       </div>

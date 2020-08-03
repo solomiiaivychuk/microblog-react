@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
 import TweetsContext from "../TweetsContext";
 import * as firebase from 'firebase';
-import UserNameContext from '../UserNameContext'
+import UserContext from '../UserContext'
 
 const PostItem = () => {
-  const userName = useContext(UserNameContext);
+  const userContext = useContext(UserContext);
   const tweetsContx = useContext(TweetsContext)
 
   let posts = [];
   
   const postsFromContext = tweetsContx.posts;
   console.log(postsFromContext);
+  console.log(userContext.name);
   for (let post of postsFromContext) {
     posts.push(post);
   }

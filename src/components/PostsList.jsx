@@ -6,7 +6,7 @@ import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import TweetsContext from "../TweetsContext";
 import WindowDisabled from "./WindowDisabled"
-import UserNameContext from '../UserNameContext'
+import UserContext from '../UserContext'
 import * as firebase from 'firebase'
 
 const PostsList = () => {
@@ -15,7 +15,8 @@ const PostsList = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [posts, setPosts] = useState([]);
 
-  const userName = useContext(UserNameContext);
+  const userContext = useContext(UserContext);
+  console.log(userContext.name);
 
   const tweetsRef = firebase.database().ref('tweets');
 
