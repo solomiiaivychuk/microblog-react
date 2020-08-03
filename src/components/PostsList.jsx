@@ -6,14 +6,16 @@ import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import TweetsContext from "../TweetsContext";
 import WindowDisabled from "./WindowDisabled"
+import UserNameContext from '../UserNameContext'
 import * as firebase from 'firebase'
 
 const PostsList = () => {
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  //const [posts, setPosts] = useState([]);
-  let posts = [];
+  const [posts, setPosts] = useState([]);
+
+  const userName = useContext(UserNameContext);
 
   const tweetsRef = firebase.database().ref('tweets');
 
@@ -22,7 +24,6 @@ const PostsList = () => {
     if (post.text != "") {
       try {
         await tweetsRef.push(post);
-        //setPosts([post, ...posts]);
       } catch (error) {
         setError(true);
         setErrorMessage("Unable to post tweet : " + error.message);
@@ -32,12 +33,31 @@ const PostsList = () => {
   };
 
   const getPosts = async () => {
-      tweetsRef.on('value', (snapshot) => {
-        return snapshot.val();
+    try {
+      tweetsRef.on('value', async (snapshot) => {
+        let tweetsFromFirestore = await snapshot.val();
+        let tweetsArr = [];
+        for (let tweet in tweetsFromFirestore) {
+          tweetsArr.push({
+            content: tweetsFromFirestore[tweet].content,
+            userName: tweetsFromFirestore[tweet].userName,
+            date: tweetsFromFirestore[tweet].date,
+            id: tweet,
+          })
+        }
+        setPosts(tweetsArr);
       })
-    setLoad(true);
-  };
+      }
+    catch(error) {
+      setError(true);
+      setErrorMessage("Unable to get tweets : " + error.message)
+    }
+      setLoad(true);
+  }
 
+  useEffect( () => {
+    getPosts();
+  }, [])
 
   return (
     <TweetsContext.Provider value={{ posts, addPost }}>

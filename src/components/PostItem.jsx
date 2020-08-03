@@ -1,26 +1,22 @@
 import React, { useContext } from "react";
 import TweetsContext from "../TweetsContext";
 import * as firebase from 'firebase';
+import UserNameContext from '../UserNameContext'
 
 const PostItem = () => {
-  
-  const tweetsRef = firebase.database().ref('tweets');
+  const userName = useContext(UserNameContext);
+  const tweetsContx = useContext(TweetsContext)
 
   let posts = [];
-  tweetsRef.on('value', (snapshot) => {
-    let tweetsFromFirestore = snapshot.val();
-    for (let tweet in tweetsFromFirestore) {
-      posts.push({
-        content: tweetsFromFirestore[tweet].content,
-        userName: tweetsFromFirestore[tweet].userName,
-        date: tweetsFromFirestore[tweet].date,
-        id: tweet,
-      })
-    }
-  });
   
-  return posts.map((post) => (
-    <div key={post} className="card rounded post-item">
+  const postsFromContext = tweetsContx.posts;
+  console.log(postsFromContext);
+  for (let post of postsFromContext) {
+    posts.push(post);
+  }
+  
+  return postsFromContext.map((post) => (
+    <div key={post.id} className="card rounded post-item">
       <div className="post-author">{post.userName}</div>
       <div className="post-text">{post.content}</div>
       <div className="post-date">{post.date}</div>

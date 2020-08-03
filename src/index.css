@@ -102,7 +102,7 @@ body {
   background-color: rgb(53, 56, 59);
 }
 .user-profile {
-  margin: 3rem;
+  margin: 5rem;
   padding: 5rem;
   display: flex;
   justify-content: center;
@@ -111,12 +111,14 @@ body {
 }
 .user-name {
   display: flex;
+  font-size: 1.2rem;
   justify-content: center;
   margin-bottom: 2rem;
 }
 .user-avatar {
   justify-self: center;
-  width: 100px;
+  align-self: center;
+  width: 150px;
   border-radius: 50%;
 }
 .user-button {
@@ -153,4 +155,9 @@ body {
   top: 42%;
   left: 40%;
   color: rgb(0, 132, 255);
+}
+.logout-button {
+  width: 20%;
+  align-self: center;
+  margin-top: 2rem;
 }

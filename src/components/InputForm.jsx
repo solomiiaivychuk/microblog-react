@@ -6,7 +6,7 @@ import * as firebase from 'firebase'
 const InputForm = () => {
   const [text, setText] = useState("");
   const tweetsContext = useContext(TweetsContext);
-  const userNameContext = useContext(UserNameContext);
+  const userName = useContext(UserNameContext);
 
   const handleSubmit = (event) => {
     const date = new Date();
@@ -14,7 +14,7 @@ const InputForm = () => {
       tweetsContext.addPost({
       id: Date.now(),
       content: text,
-      userName: JSON.parse(localStorage.getItem("001")),
+      userName: JSON.parse(localStorage.getItem('name')),
       date: date.toISOString(),
     });
     event.target.reset();

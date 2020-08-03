@@ -1,69 +1,101 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import firebase, { auth, provider } from "../firebase";
+import UserNameContext from "../UserNameContext";
 
-class UserProfile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-      name: "",
-      image: "",
-    };
-  }
+const UserProfile = () => {
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [image, setImage] = useState("");
+  const [name, setName] = useState("");
+  const userNameContx = useContext(UserNameContext);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  logout = () => {
+  const logout = () => {
     auth.signOut().then(() => {
-      this.setState({
-        user: null,
-      });
+      setUser(null);
     });
+    localStorage.clear();
   };
 
-  loginWithGoogle = () => {
+  const loginWithGoogle = () => {
+    try {
+
+    
     auth.signInWithPopup(provider).then((result) => {
       const loggedUser = result.user;
-      this.setState({
-        user: loggedUser,
-      });
-      this.setState({
-        name: this.state.user.displayName,
-        image: this.state.user.photoURL,
-      });
+      setUser(loggedUser);
+      setName(loggedUser.displayName);
+      setImage(loggedUser.photoURL);
     });
+    localStorage.clear();
+    localStorage.setItem("name", JSON.stringify(name));
+    }
+    catch(error) {
+      setErrorMessage(` ${error.message}`);
+    }
+    
   };
 
-  loginWithPassword = (email, password) => {
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode + " " + errorMessage)
-    });
-  }
-
-  handleEmailChange = () => {
-
-  }
-
-  handlePasswordChange = () => {
-
-  }
-
-  componentDidMount() {
-    auth.onAuthStateChanged((userIsLogged) => {
-      if (userIsLogged) {
-        this.setState({
-          user: userIsLogged,
-          name: userIsLogged.displayName,
-          image: userIsLogged.photoURL,
+  const loginWithPassword = (email, password) => {
+    try {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch(function (error) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode + " " + errorMessage);
         });
+      localStorage.clear();
+      localStorage.setItem("name", JSON.stringify(name));
+    }
+    catch(error) {
+      setErrorMessage(` ${error.message}`);
+    }
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const signUp = () => {
+    try {
+      firebase.auth().createUserWithEmailAndPassword(email, password);
+    }
+    catch(error) {
+      setErrorMessage(` ${error.message}`);
+    }
+  }
+
+  useEffect(() => {
+    auth.onAuthStateChanged((loggedUser) => {
+      if (loggedUser) {
+        setUser(loggedUser);
+        setName(loggedUser.displayName);
+        setImage(loggedUser.photoURL);
       }
     });
-  }
-  render() {
-    return (
+  });
+
+  return (
+    <div>
+      {user && (
+        <div className="card rounded shadow user-profile">
+          <div className="user-name">{name}</div>
+          <img className="user-avatar" src={image} />
+          <button className="btn btn-primary d-flex logout-button p-2" onClick={logout}>
+            Log out
+          </button>
+        </div>
+      )}
+      {!user && (
       <div className="form-wrapper">
-        <div className="user-form card rounded shadow">
+        <div className="user-form card rounded shadow" onSubmit={(email, password) => signUp(email, password)}>
           <div className="user-name-input">
             <div className="row">
               <div className="col">
@@ -71,7 +103,7 @@ class UserProfile extends React.Component {
                   type="email"
                   className="form-control username-input"
                   placeholder="Enter email"
-                  //onChange={(event) => this.handleEmailChange(event)}
+                  onChange={(event) => handleEmailChange(event)}
                 />
               </div>
               <div className="col">
@@ -79,53 +111,36 @@ class UserProfile extends React.Component {
                   type="password"
                   className="form-control username-input"
                   placeholder="Password"
-                  //onChange={(event) => this.handlePasswordChange(event)}
+                  onChange={(event) => handlePasswordChange(event)}
                 />
               </div>
             </div>
             <div className="row d-inline">
-              {this.state.user ? (
+              <div className="buttons-row">
                 <button
-                  className="btn btn-primary d-flex p-1"
-                  onClick={this.logout}
+                  className="btn btn-primary user-button"
+                  onClick={(email, password) =>
+                    loginWithPassword(email, password)
+                  }
                 >
-                  Log out
+                  Log in
                 </button>
-              ) : (
-                <div className="buttons-row">
-                  <button
-                    className="btn btn-primary user-button"
-                    onClick={(email, password) => this.loginWithPassword(email, password)}
-                  >
-                    Log in
-                  </button>
-                  <button
-                    className="btn btn-primary user-button"
-                    onClick={this.loginWithGoogle}
-                  >
-                    Log in with Google
-                  </button>
-                  <button className="btn btn-primary user-button">
-                    Sign up
-                  </button>
-                </div>
-              )}
+                <button
+                  className="btn btn-primary user-button"
+                  onClick={loginWithGoogle}
+                >
+                  Log in with Google
+                </button>
+                <button className="btn btn-primary user-button" onClick={signUp}>Sign up</button>
+              </div>
             </div>
+            <div className="row di-inline error-info">{errorMessage}</div>
           </div>
         </div>
-        {this.state.user ? (
-          <div className="card rounded shadow user-profile">
-            <div className="user-name">{this.state.name}</div>
-            <img className="user-avatar" src={this.state.image} />
-          </div>
-        ) : (
-          <div className="card rounded shadow user-profile">
-            User is not logged in
-          </div>
-        )}
       </div>
-    );
-  }
-}
+      )}
+    </div>
+  );
+};
 
 export default UserProfile;
