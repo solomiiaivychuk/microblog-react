@@ -1,20 +1,31 @@
 import React, { useState, useEffect, useContext } from "react";
 import TweetsContext from "../TweetsContext";
-import UserContext from "../UserContext";
-import * as firebase from 'firebase'
+import { auth } from "../firebase";
 
 const InputForm = () => {
   const [text, setText] = useState("");
   const tweetsContext = useContext(TweetsContext);
-  const userContext = useContext(UserContext);
+  const [name, setName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((loggedUser) => {
+      if (loggedUser) {
+        loggedUser.displayName
+          ? setName(loggedUser.displayName)
+          : setName(loggedUser.email);
+      }
+    });
+  });
 
   const handleSubmit = (event) => {
     const date = new Date();
     event.preventDefault();
-      tweetsContext.addPost({
+    tweetsContext.addPost({
       id: Date.now(),
       content: text,
-      userName: localStorage.getItem("name"),
+      userName: name,
       date: date.toISOString(),
     });
     event.target.reset();
@@ -22,6 +33,14 @@ const InputForm = () => {
 
   const handleChange = (event) => {
     setText(event.target.value);
+    if (text.length >= 140) {
+      setErrorMessage("140 characters maximum");
+      setError(true);
+    }
+    if (text.length < 140) {
+      setErrorMessage("");
+      setError(false);
+    }
   };
 
   return (
@@ -33,16 +52,26 @@ const InputForm = () => {
           id="exampleFormControlTextarea1"
           rows="4"
           placeholder="What's on your mind?"
-          maxLength="140"
+          maxLength="141"
           onChange={(event) => handleChange(event)}
         ></textarea>
-        <small id="passwordHelpBlock" className="form-text text-muted">
+        {error && <small id="passwordHelpBlock" className="form-text text-muted">
+          <span className="input-error-message">{errorMessage}</span>
+        </small>}
+        {!error && <small id="passwordHelpBlock" className="form-text">
           140 characters maximum
-        </small>
+        </small>}
       </div>
-      <button type="submit" className="btn btn-primary post-button">
-        Post
-      </button>
+      {error && (
+        <button type="submit" className="btn btn-primary post-button" disabled>
+          Post
+        </button>
+      )}
+      {!error && (
+        <button type="submit" className="btn btn-primary post-button">
+          Post
+        </button>
+      )}
     </form>
   );
 };

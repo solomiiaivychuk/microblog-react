@@ -138,15 +138,7 @@ body {
   color: whitesmoke;
   background-color: rgb(53, 56, 59);
 }
-.disabled-window {
-  background-color:rgba(239, 239, 239, 0.2);
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  top: 0px;
-  left: 0px;
-}
+
 .loader-message {
   display: flex;
   justify-content: center;
@@ -162,4 +154,7 @@ body {
   margin: 2rem;
   display: flex;
   justify-content: center;
+}
+.input-error-message {
+  color: red;
 }
