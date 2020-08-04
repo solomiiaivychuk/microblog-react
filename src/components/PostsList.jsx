@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import InputForm from "./InputForm";
 import PostItem from "./PostItem";
 import { getTweets, postTweet } from "../lib/api";
@@ -6,19 +6,26 @@ import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import TweetsContext from "../TweetsContext";
 import WindowDisabled from "./WindowDisabled"
+import UserContext from '../UserContext'
+import firebase, { auth, provider } from "../firebase";
+
 
 const PostsList = () => {
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [posts, setPosts] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const userContext = useContext(UserContext);
+
+  const tweetsRef = firebase.database().ref('tweets');
 
   const addPost = async (post) => {
     setLoad(false);
     if (post.text != "") {
       try {
-        await postTweet(post);
-        setPosts([post, ...posts]);
+        await tweetsRef.push(post);
       } catch (error) {
         setError(true);
         setErrorMessage("Unable to post tweet : " + error.message);
@@ -28,31 +35,52 @@ const PostsList = () => {
   };
 
   const getPosts = async () => {
+    setLoad(false);
     try {
-      const response = await getTweets();
-      const serverTweets = response.data.tweets;
-      setPosts(serverTweets);
-    } catch (error) {
+      tweetsRef.on('value', async (snapshot) => {
+        let tweetsFromFirestore = await snapshot.val();
+        let tweetsArr = [];
+        for (let tweet in tweetsFromFirestore) {
+          tweetsArr.push({
+            content: tweetsFromFirestore[tweet].content,
+            userName: tweetsFromFirestore[tweet].userName,
+            date: tweetsFromFirestore[tweet].date,
+            id: tweet,
+          })
+        }
+        setPosts(tweetsArr);
+      })
+      }
+    catch(error) {
       setError(true);
-      setErrorMessage("Unable to get tweets : " + error.message);
-      console.log(error.message);
+      setErrorMessage("Unable to get tweets : " + error.message)
     }
-    setLoad(true);
-  };
+      setLoad(true);
+  }
+
+  useEffect( () => {
+    getPosts();
+  }, [])
 
   useEffect(() => {
-    setInterval(() => {
-      getPosts();
-    }, 10000);
-  }, []);
+    auth.onAuthStateChanged((loggedUser) => {
+      if (loggedUser) {
+        setIsLoggedIn(true);
+      }
+    });
+  });
 
   return (
-    <TweetsContext.Provider value={{ posts, addPost }}>
-      <InputForm onSubmit={(post) => addPost(post)}></InputForm>
-      {!load && <div> <WindowDisabled /> <Loader /> </div>}
-      {error && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
-      <PostItem />
-    </TweetsContext.Provider>
+    <Fragment>
+      {isLoggedIn && (
+        <TweetsContext.Provider value={{ posts, addPost }}>
+        <InputForm onSubmit={(post) => addPost(post)}></InputForm>
+        {!load && <div> <WindowDisabled /> <Loader /> </div>}
+        {error && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
+        <PostItem />
+      </TweetsContext.Provider>
+      )}
+    </Fragment>
   );
 };
 

@@ -2,24 +2,27 @@ import React, { useState, useEffect } from "react";
 import PostsList from "./PostsList";
 import UserProfile from "./UserProfile";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import UserContext from '../UserContext'
+import firebase, { auth, provider } from "../firebase";
 
 const Body = () => {
+  
   return (
     <Router>
       <div className="">
         <div className="header">
-          <Link to="/" className="link">
+          <Link to="/Home" className="link">
             Home
           </Link>
-          <Link to="/Profile" className="link">
+          <Link to="/" className="link">
             Profile
           </Link>
         </div>
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/Home">
             <PostsList></PostsList>
           </Route>
-          <Route path="/Profile">
+          <Route path="/">
             <UserProfile></UserProfile>
           </Route>
         </Switch>

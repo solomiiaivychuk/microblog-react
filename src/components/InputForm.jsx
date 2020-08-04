@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import TweetsContext from "../TweetsContext";
-import UserNameContext from "../UserNameContext";
+import UserContext from "../UserContext";
+import * as firebase from 'firebase'
 
 const InputForm = () => {
   const [text, setText] = useState("");
   const tweetsContext = useContext(TweetsContext);
-  const userNameContext = useContext(UserNameContext);
+  const userContext = useContext(UserContext);
 
   const handleSubmit = (event) => {
     const date = new Date();
     event.preventDefault();
-    console.log(userNameContext.contextName);
-    tweetsContext.addPost({
+      tweetsContext.addPost({
       id: Date.now(),
       content: text,
-      userName: JSON.parse(localStorage.getItem("001")),
+      userName: localStorage.getItem("name"),
       date: date.toISOString(),
     });
     event.target.reset();

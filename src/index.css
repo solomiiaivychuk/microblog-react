@@ -98,12 +98,40 @@ body {
   padding: 5rem;
   display: flex;
   flex-direction: row;
-  flex-shrink: 7;
   justify-content: space-around;
   background-color: rgb(53, 56, 59);
 }
+.user-profile {
+  margin: 5rem;
+  padding: 5rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(53, 56, 59);
+}
+.user-name {
+  display: flex;
+  font-size: 1.2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.user-avatar {
+  justify-self: center;
+  align-self: center;
+  width: 150px;
+  border-radius: 50%;
+}
+.user-button {
+  font-size: 0.8rem;
+}
+.buttons-row {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
 .username-input {
   background-color: rgb(53, 56, 59);
+
 }
 .name-change-confirmation {
   margin: 3rem 3rem 0 3rem;
@@ -127,4 +155,11 @@ body {
   top: 42%;
   left: 40%;
   color: rgb(0, 132, 255);
+}
+.logout-button {
+  width: 20%;
+  align-self: center;
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
 }
