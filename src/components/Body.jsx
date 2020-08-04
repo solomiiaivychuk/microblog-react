@@ -6,17 +6,7 @@ import UserContext from '../UserContext'
 import firebase, { auth, provider } from "../firebase";
 
 const Body = () => {
-  /*
-  useEffect(() => {
-    auth.onAuthStateChanged((loggedUser) => {
-      if (loggedUser) {
-        setUser(loggedUser);
-        setName(loggedUser.displayName);
-        setImage(loggedUser.photoURL);
-      }
-    });
-  });
-*/
+  
   return (
     <Router>
       <div className="">

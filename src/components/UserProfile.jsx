@@ -9,6 +9,7 @@ const UserProfile = () => {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
+  const [userId, setUserId] = useState('');
 
   const usersRef = firebase.database().ref('users');
 
@@ -23,10 +24,26 @@ const UserProfile = () => {
     try {
       auth.signInWithPopup(provider).then((result) => {
         const loggedUser = result.user;
+        console.log(loggedUser.displayName);
         setUser(loggedUser);
         setName(loggedUser.displayName);
         setImage(loggedUser.photoURL);
+        setEmail(loggedUser.email);
+        // const userToDatabase = {
+        //   userEmail: loggedUser.email,
+        //   userName: loggedUser.displayName,
+        //   userImage: loggedUser.photoURL
+        // }
+        // usersRef.on('value', async (snapshot) => {
+        //   let usersDB = await snapshot.val();
+        //   for (let item in usersDB) {
+        //     if (userToDatabase.userEmail != usersDB[item].userEmail) {
+        //       usersRef.push(userToDatabase);
+        //     }
+        //   }
+        // })
       });
+      
       localStorage.clear();
       localStorage.setItem("name", JSON.stringify(name));
     }
@@ -56,18 +73,17 @@ const UserProfile = () => {
   };
 
   const signUp = () => {
-    try {
-      firebase.auth().createUserWithEmailAndPassword(email, password);
-      const newUser = {
-        userEmail: email,
-        userName: '',
-        userImage: '',
-      }
-      usersRef.push(newUser);
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setErrorMessage(`Error : ${errorMessage}`);
+    });;
+    const newUser = {
+      userEmail: email,
+      userName: '',
+      userImage: '',
     }
-    catch(error) {
-      setErrorMessage(` ${error.message}`);
-    }
+    !errorMessage && usersRef.push(newUser);
   }
 
   const handleNameChange = (event) => {
@@ -86,12 +102,24 @@ const UserProfile = () => {
       }
     });
   });
-
+/*
+  usersRef.on('value', async (snapshot) => {
+    let usersDB = await snapshot.val();
+    for (let item in usersDB) {
+      if (usersDB[item].userEmail == email) {
+        setUserId(item);
+        localStorage.clear();
+        localStorage.setItem("id", JSON.stringify(item));
+      }
+    }
+    console.log(localStorage);
+  })
+*/
   return (
-    <UserContext.Provider value={{ user: user, name: name, email: email, image: image, setUser }}>
+    <UserContext.Provider value={{ userId }}>
       {user && (
         <div className="card rounded shadow user-profile">
-          <div className="user-name">{name}</div>
+          <div className="user-name">{name ? name : email}</div>
           <img className="user-avatar" src={image} />
           <button className="btn btn-primary d-flex logout-button p-2" onClick={logout}>
             Log out
