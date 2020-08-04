@@ -10,42 +10,28 @@ const UserProfile = () => {
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
   const [userId, setUserId] = useState('');
+  const [error, setError] = useState(false);
 
   const usersRef = firebase.database().ref('users');
 
   const logout = () => {
     auth.signOut().then(() => {
       setUser(null);
+      //localStorage.clear();
     });
-    localStorage.clear();
   };
 
   const loginWithGoogle = () => {
     try {
       auth.signInWithPopup(provider).then((result) => {
         const loggedUser = result.user;
-        console.log(loggedUser.displayName);
         setUser(loggedUser);
         setName(loggedUser.displayName);
         setImage(loggedUser.photoURL);
         setEmail(loggedUser.email);
-        // const userToDatabase = {
-        //   userEmail: loggedUser.email,
-        //   userName: loggedUser.displayName,
-        //   userImage: loggedUser.photoURL
-        // }
-        // usersRef.on('value', async (snapshot) => {
-        //   let usersDB = await snapshot.val();
-        //   for (let item in usersDB) {
-        //     if (userToDatabase.userEmail != usersDB[item].userEmail) {
-        //       usersRef.push(userToDatabase);
-        //     }
-        //   }
-        // })
+        localStorage.clear();
+        localStorage.setItem("name", loggedUser.displayName);
       });
-      
-      localStorage.clear();
-      localStorage.setItem("name", JSON.stringify(name));
     }
     catch(error) {
       setErrorMessage(` ${error.message}`);
@@ -54,14 +40,13 @@ const UserProfile = () => {
   };
 
   const loginWithPassword = () => {
-    try {
-      firebase.auth().signInWithEmailAndPassword(email, password);
-    }
-    catch(error) {
-      setErrorMessage(` ${error.message}`);
-    }
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setErrorMessage(`Error : ${errorMessage}`);
+    });
     localStorage.clear();
-    localStorage.setItem("name", JSON.stringify(email));
+    localStorage.setItem("name", email);
   };
 
   const handleEmailChange = (event) => {
@@ -77,7 +62,9 @@ const UserProfile = () => {
       const errorCode = error.code;
       const errorMessage = error.message;
       setErrorMessage(`Error : ${errorMessage}`);
-    });;
+    });
+    localStorage.clear();
+    localStorage.setItem("name", email);
     const newUser = {
       userEmail: email,
       userName: '',
@@ -93,6 +80,7 @@ const UserProfile = () => {
   const changeUserName = (newName) => {
     setName(newName);
   }
+
   useEffect(() => {
     auth.onAuthStateChanged((loggedUser) => {
       if (loggedUser) {
@@ -102,24 +90,12 @@ const UserProfile = () => {
       }
     });
   });
-/*
-  usersRef.on('value', async (snapshot) => {
-    let usersDB = await snapshot.val();
-    for (let item in usersDB) {
-      if (usersDB[item].userEmail == email) {
-        setUserId(item);
-        localStorage.clear();
-        localStorage.setItem("id", JSON.stringify(item));
-      }
-    }
-    console.log(localStorage);
-  })
-*/
+
   return (
     <UserContext.Provider value={{ userId }}>
       {user && (
         <div className="card rounded shadow user-profile">
-          <div className="user-name">{name ? name : email}</div>
+          <div className="user-name">{name || email}</div>
           <img className="user-avatar" src={image} />
           <button className="btn btn-primary d-flex logout-button p-2" onClick={logout}>
             Log out

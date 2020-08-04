@@ -11,18 +11,18 @@ const Body = () => {
     <Router>
       <div className="">
         <div className="header">
-          <Link to="/" className="link">
+          <Link to="/Home" className="link">
             Home
           </Link>
-          <Link to="/Profile" className="link">
+          <Link to="/" className="link">
             Profile
           </Link>
         </div>
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/Home">
             <PostsList></PostsList>
           </Route>
-          <Route path="/Profile">
+          <Route path="/">
             <UserProfile></UserProfile>
           </Route>
         </Switch>

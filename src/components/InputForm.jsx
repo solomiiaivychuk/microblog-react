@@ -10,12 +10,11 @@ const InputForm = () => {
 
   const handleSubmit = (event) => {
     const date = new Date();
-    console.log(userContext.name);
     event.preventDefault();
       tweetsContext.addPost({
       id: Date.now(),
       content: text,
-      userName: JSON.parse(localStorage.getItem('name')),
+      userName: localStorage.getItem("name"),
       date: date.toISOString(),
     });
     event.target.reset();

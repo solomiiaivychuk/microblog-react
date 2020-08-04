@@ -10,13 +10,11 @@ const PostItem = () => {
   let posts = [];
   
   const postsFromContext = tweetsContx.posts;
-  console.log(postsFromContext);
-  console.log(userContext.name);
   for (let post of postsFromContext) {
-    posts.push(post);
+    posts.unshift(post);
   }
   
-  return postsFromContext.map((post) => (
+  return posts.map((post) => (
     <div key={post.id} className="card rounded post-item">
       <div className="post-author">{post.userName}</div>
       <div className="post-text">{post.content}</div>

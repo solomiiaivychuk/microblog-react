@@ -160,4 +160,6 @@ body {
   width: 20%;
   align-self: center;
   margin: 2rem;
+  display: flex;
+  justify-content: center;
 }

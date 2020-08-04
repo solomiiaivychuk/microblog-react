@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import InputForm from "./InputForm";
 import PostItem from "./PostItem";
 import { getTweets, postTweet } from "../lib/api";
@@ -7,16 +7,17 @@ import ErrorMessage from "./ErrorMessage";
 import TweetsContext from "../TweetsContext";
 import WindowDisabled from "./WindowDisabled"
 import UserContext from '../UserContext'
-import * as firebase from 'firebase'
+import firebase, { auth, provider } from "../firebase";
+
 
 const PostsList = () => {
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [posts, setPosts] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const userContext = useContext(UserContext);
-  console.log(userContext.name);
 
   const tweetsRef = firebase.database().ref('tweets');
 
@@ -34,6 +35,7 @@ const PostsList = () => {
   };
 
   const getPosts = async () => {
+    setLoad(false);
     try {
       tweetsRef.on('value', async (snapshot) => {
         let tweetsFromFirestore = await snapshot.val();
@@ -60,13 +62,25 @@ const PostsList = () => {
     getPosts();
   }, [])
 
+  useEffect(() => {
+    auth.onAuthStateChanged((loggedUser) => {
+      if (loggedUser) {
+        setIsLoggedIn(true);
+      }
+    });
+  });
+
   return (
-    <TweetsContext.Provider value={{ posts, addPost }}>
-      <InputForm onSubmit={(post) => addPost(post)}></InputForm>
-      {!load && <div> <WindowDisabled /> <Loader /> </div>}
-      {error && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
-      <PostItem />
-    </TweetsContext.Provider>
+    <Fragment>
+      {isLoggedIn && (
+        <TweetsContext.Provider value={{ posts, addPost }}>
+        <InputForm onSubmit={(post) => addPost(post)}></InputForm>
+        {!load && <div> <WindowDisabled /> <Loader /> </div>}
+        {error && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
+        <PostItem />
+      </TweetsContext.Provider>
+      )}
+    </Fragment>
   );
 };
 
