@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PostsList from "./PostsList";
 import UserProfile from "./UserProfile";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import UserContext from '../UserContext'
-import firebase, { auth, provider } from "../firebase";
 
 const Body = () => {
-  
   return (
     <Router>
       <div className="">
